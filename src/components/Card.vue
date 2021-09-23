@@ -1,5 +1,5 @@
 <template>
-    <button class="card-button">
+    <button class="card-button" @click="flipCards(card)">
         <img
             :src="card.front"
             alt="Charlotte vs Sasha Banks at Hell in a Cell 2016"
@@ -26,9 +26,16 @@
 </template>
 
 <script>
+/* eslint-disable no-param-reassign */
 export default {
     name: 'Card',
     props: ['card'],
+    methods: {
+        flipCards(card) {
+            card.isOpen = ! card.isOpen;
+            card.isShown = ! card.isShown;
+        },
+    },
 };
 </script>
 
