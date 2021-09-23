@@ -4,7 +4,7 @@
             :src="card.front"
             alt="Charlotte vs Sasha Banks at Hell in a Cell 2016"
             class="card-front"
-            v-if="!card.isOpen && !card.isShown && !card.isMatched"
+            v-if="! card.isOpen && ! card.isShown && ! card.isMatched"
             :class="{
                 'open': card.isOpen,
                 'show': card.isShown,
