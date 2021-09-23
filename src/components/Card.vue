@@ -1,12 +1,34 @@
 <template>
-    <div class="card">
-        <h1 class="card__heading">Hey There!</h1>
-    </div>
+    <button class="card-button">
+        <img
+            :src="card.front"
+            alt="Charlotte vs Sasha Banks at Hell in a Cell 2016"
+            class="card-front"
+            v-if="!card.isOpen && !card.isShown && !card.isMatched"
+            :class="{
+                'open': card.isOpen,
+                'show': card.isShown,
+                'match': card.isMatched
+            }"
+        />
+        <img
+            :src="card.back"
+            :alt="card.altText"
+            class="card-back"
+            v-if="card.isOpen || card.isShown || card.isMatched"
+            :class="{
+                'open': card.isOpen,
+                'show': card.isShown,
+                'match': card.isMatched
+            }"
+        />
+    </button>
 </template>
 
 <script>
 export default {
     name: 'Card',
+    props: ['card'],
 };
 </script>
 

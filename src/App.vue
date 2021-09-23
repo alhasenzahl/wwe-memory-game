@@ -1,6 +1,15 @@
 <template>
-    <img alt="Vue logo" src="./assets/logo.png">
-    <Card />
+    <ul class="deck">
+        <li
+            class="card"
+            :key="card.key"
+            v-for="card in cardList"
+        >
+            <Card
+                :card="card"
+            />
+        </li>
+    </ul>
 </template>
 
 <script>
@@ -10,6 +19,22 @@ export default {
     name: 'App',
     components: {
         Card,
+    },
+    data() {
+        return {
+            cardList: [],
+        };
+    },
+    methods: {
+        getCardList() {
+            fetch('cards.json')
+                .then((response) => response.json())
+                // eslint-disable-next-line no-return-assign
+                .then((data) => this.cardList = data);
+        },
+    },
+    created() {
+        this.getCardList();
     },
 };
 </script>
