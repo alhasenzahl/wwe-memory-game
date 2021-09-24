@@ -8,6 +8,7 @@
             >
                 <Card
                     :card="card"
+                    @click="flipCards(card)"
                 />
             </li>
         </ul>
@@ -15,6 +16,7 @@
 </template>
 
 <script>
+/* eslint-disable no-param-reassign */
 import Card from './components/Card.vue';
 
 export default {
@@ -25,6 +27,9 @@ export default {
     data() {
         return {
             cardList: [],
+            firstClick: false,
+            openCards: [],
+            matchedCards: [],
         };
     },
     methods: {
@@ -33,6 +38,46 @@ export default {
                 .then((response) => response.json())
                 // eslint-disable-next-line no-return-assign
                 .then((data) => this.cardList = data);
+        },
+        matchCards() {
+            if (this.openCards.length === 2) {
+                setTimeout(() => {
+                    const cardOne = this.openCards[0];
+                    const cardTwo = this.openCards[1];
+
+                    if (cardOne.back === cardTwo.back) {
+                        cardOne.isOpen = ! cardOne.isOpen;
+                        cardTwo.isOpen = ! cardTwo.isOpen;
+                        cardOne.isMatched = ! cardOne.isMatched;
+                        cardTwo.isMatched = ! cardTwo.isMatched;
+
+                        this.matchedCards.push(cardOne, cardTwo);
+                    } else {
+                        cardOne.isOpen = ! cardOne.isOpen;
+                        cardTwo.isOpen = ! cardTwo.isOpen;
+                        cardOne.isShown = ! cardOne.isShown;
+                        cardTwo.isShown = ! cardTwo.isShown;
+                    }
+
+                    this.openCards = [];
+                }, 1500);
+            }
+        },
+        flipCards(card) {
+            if (! this.firstClick) {
+                this.firstClick = ! this.firstClick;
+            }
+
+            if (! card.isOpen && ! card.isShown && ! card.isMatched) {
+                this.openCards.push(card);
+
+                if (this.openCards.length <= 2) {
+                    card.isOpen = ! card.isOpen;
+                    card.isShown = ! card.isShown;
+
+                    this.matchCards();
+                }
+            }
         },
     },
     created() {
