@@ -17,6 +17,8 @@
 
 <script>
 /* eslint-disable no-param-reassign */
+/* eslint-disable one-var */
+/* eslint-disable one-var-declaration-per-line */
 import Card from './components/Card.vue';
 
 export default {
@@ -37,7 +39,20 @@ export default {
             fetch('cards.json')
                 .then((response) => response.json())
                 // eslint-disable-next-line no-return-assign
-                .then((data) => this.cardList = data);
+                .then((data) => this.cardList = this.shuffle(data));
+        },
+        shuffle(array) {
+            let currentIndex = array.length, temporaryValue, randomIndex;
+
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
         },
         matchCards() {
             if (this.openCards.length === 2) {
